@@ -3,14 +3,17 @@ package com.tca.repository;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.tca.model.Student;
 
 @Repository
 public class StudentRepository {
+	
 	@Autowired
-	Map<String, Student> hm;
+	@Qualifier("getStudentStore2")
+	private Map<String, Student> hm;
 
 	public Student findById(String studentId) {
 		return hm.get(studentId);
@@ -19,4 +22,6 @@ public class StudentRepository {
 	public Map<String, Student> findAll() {
 		return hm;
 	}
+	
+	
 }

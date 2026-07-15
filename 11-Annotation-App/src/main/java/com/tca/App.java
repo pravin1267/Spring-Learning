@@ -1,51 +1,35 @@
 package com.tca;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-class Student{
-	private String name;
-	private String city;
-	private double per;
-	
-	public void Student() {}
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-	public Student(String name, String city, double per) {
-		super();
-		this.name = name;
-		this.city = city;
-		this.per = per;
-	}
+import com.tca.config.AppConfig;
+import com.tca.model.Student;
+import com.tca.service.StudentService;
 
-	@Override
-	public String toString() {
-		return "Student [name=" + name + ", city=" + city + ", per=" + per + "]";
-	}
-	
-	
-}
+
 public class App {
     public static void main(String[] args) {
        
-      Student s1= new Student("Sachin","new Sangavi",80.5);
-      Student s2 = new Student("Sourabh","old sangavi",99.5);
+      ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
       
-      Map<String,Student> hm = new HashMap<>();
+      StudentService service = context.getBean(StudentService.class);
       
-      hm.put("sb-1", s1);
-      hm.put("sb-2", s2);
-      
-      Student s = hm.get("sb-1");
+      Student s = service.getStudentById("sb-1");
       System.out.println(s);
-      System.out.println("-----------------------------------------------");
-      Set<Entry<String,Student>> set = hm.entrySet();
       
-      for(Entry<String,Student> entry : set) {
-    	  System.err.print("KEY : "+entry.getKey());
-    	  System.out.println(" VALUE : "+entry.getValue());
+      
+      Map<String , Student> hm = service.getAllStudents();
+      Set<Entry<String,Student>> entries = hm.entrySet();
+      for(Entry<String,Student> entry : entries) {
+    	  System.out.println("ID : "+entry.getKey());
+    	  System.out.println("VALUE : "+entry.getValue());
       }
+      
       
     }
 }
